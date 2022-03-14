@@ -66,6 +66,16 @@ namespace jj01
 
         timeStart = clock();
         ::qsort(c.data(), ASIZE, sizeof(long), compareLongs);
+        // for (int i = 0; i < 10; ++i)
+        // {
+        //     cout << c[i] << " ";
+        // }
+        // cout << endl;
+        // for (int i = ASIZE; i > ASIZE - 10; --i)
+        // {
+        //     cout << c[i] << " ";
+        // }
+        // cout << endl;
         long *pItem = (long *)::bsearch(&target, (c.data()), ASIZE, sizeof(long), compareLongs);
         cout << "qsort()+bsearch(), milli-seconds : " << (clock() - timeStart) << endl; //
         if (pItem != NULL)
@@ -124,17 +134,16 @@ namespace jj02       //使用vector
                 cout << "not found!" << endl;
         }
 
-        {
-            timeStart = clock();
-            sort(c.begin(), c.end());
-            string *pItem = (string *)bsearch(&target, (c.data()),
-                                              c.size(), sizeof(string), compareStrings);
-            cout << "sort() + bsearch(), milli-seconds:" << (clock() - timeStart) << endl;
-            if (pItem != NULL)
-                cout << "found, " << *pItem << endl;
-            else
-                cout << "not found!" << endl;
-        }
+        timeStart = clock();
+        sort(c.begin(), c.end());
+        string *pItem = (string *)bsearch(&target, (c.data()),
+                                          c.size(), sizeof(string), compareStrings);
+        cout << "sort() + bsearch(), milli-seconds:" << (clock() - timeStart) << endl;
+        if (pItem != NULL)
+            cout << "found, " << *pItem << endl;
+        else
+            cout << "not found!" << endl;
+        
         c.clear();
     }
 } // namespace jj02
@@ -190,6 +199,7 @@ namespace jj03 //使用list
         timeStart = clock();
         c.sort();
         cout << "c.sort(), milli-seconds:" << (clock() - timeStart) << endl;
+        c.clear();
     }
 } // namespace jj03
 
@@ -240,8 +250,64 @@ namespace jj04
         timeStart = clock();
         c.sort();
         cout << "c.sort(), milli-seconds :" << (clock() - timeStart) << endl;
+
+        c.clear();
     }
 } // namespace jj04
+
+// --------------------------------------
+#include <deque>
+#include <stdexcept>
+#include <string>
+#include <cstdlib> //abort()
+#include <cstdio>  //snprintf()
+#include <iostream>
+#include <ctime>
+namespace jj05
+{
+    void test_deque(long &value)
+    {
+        cout << "\ntest_deque().......... \n";
+
+        deque<string> c;
+        char buf[10];
+        clock_t timeStart = clock();
+        for (long i = 0; i < value; ++i)
+        {
+            try
+            {
+                snprintf(buf, 10, "%d", rand());
+                c.push_back(string(buf));
+            }
+            catch (exception &p)
+            {
+                cout << "i=" << i << " " << p.what() << endl;
+                abort();
+            }
+        }
+        cout << "milli-seconds : " << (clock() - timeStart) << endl;
+        cout << "deque.size()= " << c.size() << endl;
+        cout << "deque.front()= " << c.front() << endl;
+        cout << "deque.back()= " << c.back() << endl;
+        cout << "deque.max_size()= " << c.max_size() << endl; // 1073741821
+
+        string target = get_a_target_string();
+        timeStart = clock();
+        auto pItem = find(c.begin(), c.end(), target);
+        cout << "std::find(), milli-seconds : " << (clock() - timeStart) << endl;
+
+        if (pItem != c.end())
+            cout << "found, " << *pItem << endl;
+        else
+            cout << "not found! " << endl;
+
+        timeStart = clock();
+        sort(c.begin(), c.end());
+        cout << "sort(), milli-seconds : " << (clock() - timeStart) << endl;
+
+        c.clear();
+    }
+} // namespace jj05
 
 int main()
 {
@@ -251,7 +317,7 @@ int main()
     switch (jjxx)
     {
     case 1:
-        jj02::test_vector(value);
+        jj01::test_array();
         break;
     case 2:
         jj02::test_vector(value);
@@ -264,7 +330,7 @@ int main()
         break;
 
     case 5:
-
+        jj05::test_deque(value);
         break;
     case 6:
 
