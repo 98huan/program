@@ -10,7 +10,21 @@ int main(){
     vector<int, allocator<int>> vi(ia, ia+6);
 
     cout << count_if(vi.begin(), vi.end(),      //算法：计算符合条件的个数
-            not1(bind2nd(less<int>(),40)));
-            
+            not1(bind2nd(less<int>(),40))) << endl;
+
+
+    vector<int> vec;
+
+    for(int i : {1,4,6,8,9})
+    {
+        vec.push_back(i);
+    }
+
+    for(auto elem : vec)
+    {
+        cout << elem << " ";
+    }
+    cout << endl;
+
     return 0;
 }
