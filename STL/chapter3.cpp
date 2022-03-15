@@ -309,10 +309,12 @@ namespace jj05
     }
 } // namespace jj05
 
+
 int main()
 {
     long value = 1000000;
     int jjxx;
+
     cin >> jjxx;
     switch (jjxx)
     {
@@ -328,7 +330,6 @@ int main()
     case 4:
         jj04::test_forward_list(value);
         break;
-
     case 5:
         jj05::test_deque(value);
         break;
