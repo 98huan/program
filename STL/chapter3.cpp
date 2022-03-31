@@ -306,14 +306,14 @@ namespace jj05
         cout << "sort(), milli-seconds : " << (clock() - timeStart) << endl;
 
         c.clear();
-    }
+    } 
 } // namespace jj05
-
 
 int main()
 {
+    cout << "cplusplus_version:" << __cplusplus << endl;
     long value = 1000000;
-    int jjxx;
+    int jjxx;   //
 
     cin >> jjxx;
     switch (jjxx)
